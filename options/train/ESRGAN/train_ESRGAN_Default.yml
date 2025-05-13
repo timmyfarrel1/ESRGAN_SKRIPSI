@@ -3,7 +3,7 @@ datasets:
     batch_size_per_gpu: 8
     dataroot_gt: /kaggle/input/d/timmothyfarrel/data-latih-sistem/data_latih_sistem/train/train_HR
     dataroot_lq: /kaggle/input/d/timmothyfarrel/data-latih-sistem/data_latih_sistem/train/train_LR
-    dataset_enlarge_ratio: 2
+    dataset_enlarge_ratio: 1
     filename_tmpl: '{}'
     gt_size: 128
     io_backend:
@@ -97,6 +97,23 @@ train:
     type: MultiStepLR
   total_iter: 15000
   warmup_iter: -1
+  metrics:
+    niqe:
+      better: lower
+      crop_border: 4
+      test_y_channel: false
+      type: calculate_niqe
+    psnr:
+      better: higher
+      crop_border: 4
+      test_y_channel: false
+      type: calculate_psnr
+    ssim:
+      better: higher
+      crop_border: 4
+      test_y_channel: false
+      type: calculate_ssim
+  
 val:
   metrics:
     niqe:
