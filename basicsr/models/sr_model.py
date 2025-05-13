@@ -202,8 +202,12 @@ class SRModel(BaseModel):
 
             # Update best metric
             best = self.best_train_metric_results[name]
-            is_better = val > best['val'] if name != 'niqe' else val < best['val']
-            if best['val'] is None or is_better:
+            if best['val'] is None:
+                is_better = True
+            else:
+                is_better = val > best['val'] if name != 'niqe' else val < best['val']
+
+            if is_better:
                 self.best_train_metric_results[name] = {'val': val, 'iter': current_iter}
 
             if tb_logger:
