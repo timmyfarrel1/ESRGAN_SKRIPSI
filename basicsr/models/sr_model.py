@@ -188,7 +188,7 @@ class SRModel(BaseModel):
 
         self.test()
         visuals = self.get_current_visuals()
-        sr_img = tensor2img([visuals['rlt']])
+        sr_img = tensor2img([visuals['result']])
         metric_data = {'img': sr_img}
 
         if 'gt' in visuals:
