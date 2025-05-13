@@ -132,4 +132,4 @@ val:
       test_y_channel: false
       type: calculate_ssim
   save_img: true
-  val_freq: 1000
+  val_freq: 750
