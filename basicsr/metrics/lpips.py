@@ -1,7 +1,8 @@
 import torch
 import lpips
 from basicsr.utils.registry import METRIC_REGISTRY
-from basicsr.metrics.metric_util import reorder_image, to_tensor
+from basicsr.metrics.metric_util import reorder_image
+from basicsr.utils import img2tensor
 
 @METRIC_REGISTRY.register()
 def calculate_lpips(img, img2, crop_border, input_order='HWC', test_y_channel=False, **kwargs):
@@ -23,8 +24,8 @@ def calculate_lpips(img, img2, crop_border, input_order='HWC', test_y_channel=Fa
         img2 = img2[crop_border:-crop_border, crop_border:-crop_border, :]
 
     # Normalize and convert to tensor
-    img_tensor = to_tensor(img, bgr2rgb=True, float32=True).unsqueeze(0).cuda()
-    img2_tensor = to_tensor(img2, bgr2rgb=True, float32=True).unsqueeze(0).cuda()
+    img_tensor = img2tensor(img, bgr2rgb=True, float32=True).unsqueeze(0).cuda()
+    img2_tensor = img2tensor(img2, bgr2rgb=True, float32=True).unsqueeze(0).cuda()
 
     # Normalize to [-1, 1]
     img_tensor = (img_tensor - 0.5) / 0.5
