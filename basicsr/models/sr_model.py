@@ -204,7 +204,10 @@ class SRModel(BaseModel):
             self.test()
 
             visuals = self.get_current_visuals()
-            sr_imgs = tensor2img([visuals['result']])  # List of output images (per sample)
+            sr_imgs = tensor2img(visuals['result'])  # List of output images (per sample)
+            print(visuals['result'].shape)
+            print(type(tensor2img(visuals['result'])))
+
             if 'gt' in visuals:
                 gt_imgs = tensor2img([visuals['gt']])  # List of ground truth images
                 del self.gt
