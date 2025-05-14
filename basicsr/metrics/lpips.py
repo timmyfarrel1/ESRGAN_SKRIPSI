@@ -4,6 +4,9 @@ from basicsr.utils.registry import METRIC_REGISTRY
 from basicsr.metrics.metric_util import reorder_image
 from basicsr.utils import img2tensor
 
+loss_fn_lpips = lpips.LPIPS(net='vgg').to('cuda' if torch.cuda.is_available() else 'cpu')
+loss_fn_lpips.eval()  # non-training mode
+
 @METRIC_REGISTRY.register()
 def calculate_lpips(img, img2, crop_border, input_order='HWC', test_y_channel=False, **kwargs):
     """
@@ -31,6 +34,5 @@ def calculate_lpips(img, img2, crop_border, input_order='HWC', test_y_channel=Fa
     img_tensor = (img_tensor - 0.5) / 0.5
     img2_tensor = (img2_tensor - 0.5) / 0.5
 
-    loss_fn = lpips.LPIPS(net='vgg').cuda()
-    lpips_score = loss_fn(img_tensor, img2_tensor).item()
+    lpips_score = loss_fn_lpips(img_tensor, img2_tensor).item()
     return lpips_score
