@@ -16,7 +16,7 @@ class VGGStyleDiscriminator(nn.Module):
         num_feat (int): Channel number of base intermediate features.Default: 64.
     """
 
-    def __init__(self, num_in_ch, num_feat, input_size=128):
+    def __init__(self, num_in_ch, num_feat, input_size=256):
         super(VGGStyleDiscriminator, self).__init__()
         self.input_size = input_size
         assert self.input_size == 128 or self.input_size == 256, (
