@@ -87,6 +87,7 @@ class RRDBNet(nn.Module):
     def __init__(self, num_in_ch, num_out_ch, scale=4, num_feat=64, num_block=23, num_grow_ch=32):
         super(RRDBNet, self).__init__()
         self.scale = scale
+        print(f'[DEBUG] Scale diterima oleh RRDBNet: {scale}')
         if scale == 2:
             num_in_ch = num_in_ch * 4
         elif scale == 1:
