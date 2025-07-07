@@ -312,7 +312,7 @@ class BaseModel():
                 load_net[k[7:]] = v
                 load_net.pop(k)
         # 🎯 MODIFIKASI: Jika jumlah channel tidak cocok, ubah conv_first
-        if 'conv_first.weight' in load_net:
+        if 'conv_first.weight' in load_net and self.opt['scale'] == 2:
             pretrained_weight = load_net['conv_first.weight']  # [64, 3, 3, 3]
             current_weight_shape = net.conv_first.weight.shape  # [64, 12, 3, 3] (misalnya)
             if pretrained_weight.shape[1] != current_weight_shape[1]:
