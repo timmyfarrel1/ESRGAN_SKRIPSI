@@ -311,6 +311,17 @@ class BaseModel():
             if k.startswith('module.'):
                 load_net[k[7:]] = v
                 load_net.pop(k)
+        # 🎯 MODIFIKASI: Jika jumlah channel tidak cocok, ubah conv_first
+        if 'conv_first.weight' in load_net:
+            pretrained_weight = load_net['conv_first.weight']  # [64, 3, 3, 3]
+            current_weight_shape = net.conv_first.weight.shape  # [64, 12, 3, 3] (misalnya)
+            if pretrained_weight.shape[1] != current_weight_shape[1]:
+                logger.warning(
+                    f"Modifying conv_first weight: pretrained {pretrained_weight.shape}, target {current_weight_shape}"
+                )
+                # Repeat agar cocok dengan channel baru
+                new_weight = pretrained_weight.repeat(1, current_weight_shape[1] // pretrained_weight.shape[1] + 1, 1, 1)
+                load_net['conv_first.weight'] = new_weight[:, :current_weight_shape[1], :, :]
         self._print_different_keys_loading(net, load_net, strict)
         net.load_state_dict(load_net, strict=strict)
 
